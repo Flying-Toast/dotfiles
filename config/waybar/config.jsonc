@@ -1,0 +1,58 @@
+{
+	"position": "bottom",
+	"modules-left": [
+		"sway/mode",
+		"sway/workspaces"
+	],
+	"modules-center": [
+		"clock"
+	],
+	"modules-right": [
+		"tray",
+		"pulseaudio",
+		"power-profiles-daemon",
+		"battery"
+	],
+	"sway/mode": {
+		"format": "{}"
+	},
+	"clock": {
+		"format": "{:%a %b %d  %I:%M %p}",
+		"tooltip": false
+	},
+	"battery": {
+		"states": {
+			"good": 95,
+			"warning": 19,
+			"critical": 9
+		},
+		"format": "{capacity}",
+		"format-plugged": "{capacity}p",
+		"format-charging": "{capacity}+",
+		"tooltip": false
+	},
+	"sway/workspaces": {
+		"disable-scroll": true,
+		"all-outputs": true
+	},
+	"tray": {
+		"spacing": 2
+	},
+	"power-profiles-daemon": {
+		"format": "{icon}",
+		"tooltip": false,
+		"format-icons": {
+			"default": "D",
+			"performance": "!",
+			"balanced": "=",
+			"power-saver": "z"
+		}
+	},
+	"pulseaudio": {
+		"format": "{volume}",
+		"format-bluetooth": "{volume} bt",
+		"format-muted": "M",
+		"tooltip": false,
+		"on-click": "~/.local/ubin/volume set 0"
+	}
+}

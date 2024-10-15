@@ -1,0 +1,179 @@
+set $mod Mod4
+set $left h
+set $down j
+set $up k
+set $right l
+set $gaps 4
+set $ubin ~/.local/ubin
+set $move_resize_step 50px
+
+exec wlsunset -S 06:30 -s 18:00
+
+input type:touchpad {
+	natural_scroll enabled
+	tap enabled
+}
+input type:keyboard xkb_options caps:escape
+
+output * {
+	bg #000000 solid_color
+	mode --custom 1408x792
+}
+
+floating_modifier $mod normal
+workspace_layout tabbed
+bar swaybar_command waybar
+font JetBrainsMonoNL 10
+titlebar_padding 6 1
+smart_gaps on
+gaps inner $gaps
+gaps outer -$gaps
+hide_edge_borders --i3 none
+smart_borders on
+default_border pixel 2
+
+bindsym {
+	$mod+return exec foot
+	$mod+f exec $ubin/run-or-focus firefox org.mozilla.firefox
+	$mod+shift+f [con_mark="ret"] focus; unmark ret
+	$mod+m exec swaylock
+
+	$mod+shift+q kill
+	$mod+e layout toggle split
+	$mod+w layout tabbed
+	$mod+b splith
+	$mod+v splitv
+	$mod+x fullscreen
+	$mod+a focus parent
+	$mod+z focus child
+	$mod+shift+space floating toggle
+	$mod+space focus mode_toggle
+
+	$mod+$left focus left
+	$mod+$down focus down
+	$mod+$up focus up
+	$mod+$right focus right
+
+	print exec grimshot copy output
+	Mod1+print exec grimshot copy area
+
+	$mod+shift+$left move left $move_resize_step
+	$mod+shift+$down move down $move_resize_step
+	$mod+shift+$up move up $move_resize_step
+	$mod+shift+$right move right $move_resize_step
+
+	$mod+1 workspace number 1
+	$mod+2 workspace number 2
+	$mod+3 workspace number 3
+	$mod+4 workspace number 4
+	$mod+shift+1 move container to workspace number 1
+	$mod+shift+2 move container to workspace number 2
+	$mod+shift+3 move container to workspace number 3
+	$mod+shift+4 move container to workspace number 4
+}
+
+mode "resize" {
+	bindsym $left resize shrink width $move_resize_step
+	bindsym $right resize grow width $move_resize_step
+	bindsym $up resize shrink height $move_resize_step
+	bindsym $down resize grow height $move_resize_step
+	bindsym escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+bindsym --locked {
+	XF86MonBrightnessUp exec $ubin/brightness inc 5
+	shift+XF86MonBrightnessUp exec $ubin/brightness inc 1
+	XF86MonBrightnessDown exec $ubin/brightness dec 5
+	shift+XF86MonBrightnessDown exec $ubin/brightness dec 1
+
+	XF86AudioRaiseVolume exec $ubin/volume inc 10
+	XF86AudioLowerVolume exec $ubin/volume dec 10
+	XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+	XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+}
+
+include "$(/usr/libexec/sway/layered-include "/etc/sway/config.d/*.conf")"
+#############################################
+#############################################
+#############################################
+#############################################
+# Your preferred application launcher
+# Note: pass the final command to swaymsg so that the resulting window can be opened
+# on the original workspace that the command was run on.
+# Recommends: rofi-wayland
+set $rofi_cmd rofi -terminal foot
+# Shows a combined list of the applications with desktop files and
+# executables from PATH.
+# TODO: add window with the next release of rofi-wayland
+set $menu $rofi_cmd -show combi -combi-modes drun#run -modes combi
+# Start your launcher
+bindsym $mod+d exec $menu
+
+### Idle configuration
+#
+# Example configuration:
+#
+#exec swayidle -w \
+#	timeout 300 "swaylock -f -c 000000" \
+#	timeout 600 "swaymsg 'output * power off'" resume "swaymsg 'output * power on'" \
+#	before-sleep "swaylock -f -c 000000"
+#
+# This will lock your screen after 300 seconds of inactivity, then turn off
+# your displays after another 300 seconds, and turn your screens back on when
+# resumed. It will also lock your screen before your computer goes to sleep.
+
+# Idle and lock configuration
+#
+# This will lock your screen after 300 seconds of inactivity, then turn off
+# your displays after another 60 seconds, and turn your screens back on when
+# resumed. It will also lock your screen before your computer goes to sleep.
+# The timeouts can be customized via `$lock_timeout` and `$screen_timeout`
+# variables. For a predictable behavior, keep the `$screen_timeout` value
+# lesser than the `$lock_timeout`.
+#
+# You can also lock the screen manually by running `loginctl lock-session` or
+# add a binding for the command. Example:
+#     bindsym $mod+Shift+Escape  exec loginctl lock-session
+#
+# Note that all swaylock customizations are handled via /etc/swaylock/config and
+# can be overridden via $XDG_CONFIG_HOME/swaylock/config (~/.config/swaylock/config).
+#
+# Requires: swayidle
+# Requires: swaylock
+# Requires: /usr/bin/pkill, /usr/bin/pgrep
+
+exec LT="$lock_timeout" ST="$screen_timeout" LT=${LT:-300} ST=${ST:-60} && \
+	swayidle -w \
+	timeout $LT 'swaylock -f' \
+	timeout $((LT + ST)) 'swaymsg "output * power off"' \
+		resume 'swaymsg "output * power on"'  \
+	timeout $ST 'pgrep -xu "$USER" swaylock >/dev/null && swaymsg "output * power off"' \
+		resume 'pgrep -xu "$USER" swaylock >/dev/null && swaymsg "output * power on"'  \
+	before-sleep 'swaylock -f' \
+	lock 'swaylock -f' \
+	unlock 'pkill -xu "$USER" -SIGUSR1 swaylock'
+
+
+# Start graphical authentication agent for PolicyKit.
+#
+# Certain applications may require this to request elevated privileges:
+#   GParted, virt-manager, anything that uses pkexec
+#
+# Requires: lxqt-policykit
+
+exec /usr/libexec/lxqt-policykit-agent
+
+# Wait until a StatusNotifierItem tray implementation is available and
+# process XDG autostart entries.
+#
+# This horror has to exist because
+#
+#  - SNI spec mandates that if `IsStatusNotifierHostRegistered` is not set,
+#    the client should fall back to the Freedesktop System Tray specification
+#    (XEmbed).
+#  - There are actual implementations that take this seriously and implement
+#    a fallback *even if* StatusNotifierWatcher is already DBus-activated.
+#  - https://github.com/systemd/systemd/issues/3750
+#
+exec /usr/libexec/sway-systemd/wait-sni-ready && systemctl --user start sway-xdg-autostart.target

@@ -1,0 +1,44 @@
+* {
+	min-height: 0;
+	margin: 0;
+	padding: 0;
+	font: 16px "JetBrains Mono NL";
+	border-radius: 0;
+}
+
+window#waybar {
+	background: black;
+	color: white;
+}
+
+button, button:hover {
+	border: inherit;
+	box-shadow: none;
+	background: inherit;
+	color: inherit;
+}
+
+#workspaces button.focused {
+	background: #285577;
+}
+
+#workspaces button.urgent {
+	background-color: #900000;
+}
+
+#mode {
+	color: black;
+	background-color: white;
+}
+
+#battery, #pulseaudio, #tray, #mode, #power-profiles-daemon {
+	padding: 0 1ex;
+}
+
+#battery.warning:not(.charging) {
+	background-color: #900000;
+}
+
+#battery.critical:not(.charging) {
+	background-color: red;
+}

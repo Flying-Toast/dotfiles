@@ -1,0 +1,5 @@
+#!/bin/sh
+
+printf $(tput setab 3)
+yes "$(printf "%$(tput cols)s\n")" | head
+echo $(tput sgr0)

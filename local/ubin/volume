@@ -1,0 +1,47 @@
+#!/bin/sh
+
+get_sink_volume() {
+    ret=$(pactl get-sink-volume @DEFAULT_SINK@)
+    # get first percent value
+    ret=${ret%%%*}
+    ret=${ret##* }
+    echo "$ret"
+}
+
+function stepvol {
+	STEP="$1"
+	VOL="$(get_sink_volume)"
+	VOL="$(( VOL + STEP ))"
+}
+
+case "$1" in
+inc)
+	stepvol "$2"
+	;;
+dec)
+	stepvol "-$2"
+	;;
+set)
+	VOL="$2"
+esac
+
+if [ "$VOL" -gt 100 ]
+then
+	VOL=100
+elif [ "$VOL" -lt 0 ]
+then
+	VOL=0
+else
+	DOSOUND=1
+fi
+
+pactl set-sink-volume @DEFAULT_SINK@ "$VOL%"
+[ -n "$DOSOUND" ] && paplay /usr/share/sounds/freedesktop/stereo/audio-volume-change.oga &
+
+case "$(pactl get-sink-mute @DEFAULT_SINK@)" in *yes)
+	MUTE=" M"
+esac
+case "$(pactl get-default-sink)" in bluez*)
+	BT=" bt"
+esac
+notify-send -e -h string:x-canonical-private-synchronous:slideradj -h "int:value:$VOL" -t 400 "$VOL%$MUTE$BT"

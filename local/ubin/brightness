@@ -1,0 +1,15 @@
+#!/bin/sh
+
+case "$1" in
+inc)
+	STEP="+$2%"
+	;;
+dec)
+	STEP="$2%-"
+	;;
+esac
+
+brightnessctl --min-value=1 set "$STEP"
+
+BRT="$(brightnessctl --percentage get)"
+notify-send -e -h string:x-canonical-private-synchronous:slideradj -h "int:value:$BRT" -t 400 "$BRT%"

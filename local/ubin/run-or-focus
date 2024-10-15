@@ -1,0 +1,13 @@
+#!/bin/sh
+
+EXEC_CMD="$1"
+APPID="$2"
+
+if swaymsg -t get_tree | jq -e "recurse(.nodes[]) | .app_id | select(. == \"$APPID\")" 1> /dev/null
+then
+	swaymsg "[con_id=\"__focused__\" app_id=\"^(?!$APPID)\"] mark ret; [app_id=\"$APPID\"] focus"
+	(swaymsg -m -t subscribe '["window"]' &) | jq -ern 'first(inputs | if (.change == "focus") then (., halt) else empty end)'
+	swaymsg 'unmark ret'
+else
+	swaymsg "exec '$EXEC_CMD'"
+fi
