@@ -1,0 +1,19 @@
+SyncState *
+
+IMAPStore icloud-remote
+Host imap.mail.me.com
+User simon_schwartz
+PassCmd "secret-tool lookup key isync"
+TLSType IMAPS
+
+MaildirStore icloud-local
+Path ~/.local/share/mail/icloud/
+Inbox ~/.local/share/mail/icloud/INBOX
+
+Channel icloud
+Far :icloud-remote:
+Near :icloud-local:
+Pattern *
+Create Both
+Expunge Both
+CopyArrivalDate yes

@@ -1,0 +1,9 @@
+[global]
+gap_size=4
+frame_width=4
+foreground="#000000"
+background="#ffff00"
+highlight="#000000"
+frame_color="#1070f0"
+font=JetBrainsMonoNL 14
+timeout=5
