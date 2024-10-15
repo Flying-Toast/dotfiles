@@ -1,0 +1,10 @@
+[General]
+DryRun = No
+SyncFilter = cal
+# Thunderbird can discover these parameters, see ~/.thunderbird/*.default-*/pref.js
+Hostname = p35-caldav.icloud.com
+Path = /17147012204/calendars/122E54C1-F509-42CB-A6A8-E2026240035A/
+
+[Auth]
+Username = simon_schwartz@icloud.com
+PasswordCommand = secret-tool lookup key calcurse
