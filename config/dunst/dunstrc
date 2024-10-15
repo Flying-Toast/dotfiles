@@ -1,0 +1,9 @@
+[global]
+origin=top-center
+gap_size=4
+frame_width=1
+background="#000000"
+highlight="#ffffff"
+frame_color="#777777"
+font=JetBrainsMonoNL 10
+timeout=3
