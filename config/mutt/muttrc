@@ -1,0 +1,43 @@
+source ~/.config/mutt/private
+
+set ssl_force_tls = yes
+set imap_pass = `secret-tool lookup key mutt`
+set smtp_pass = $imap_pass
+set imap_user = $my_icloud_username
+set smtp_url = "smtps://$my_icloud_username@icloud.com@smtp.mail.me.com"
+set from = "$my_icloud_username@icloud.com"
+set folder = "imaps://$imap_user:$imap_pass@imap.mail.me.com"
+set spoolfile = "+INBOX"
+set postponed = "+Drafts"
+set record = "+Sent Messages"
+set trash = "+Deleted Messages"
+set mbox = "+Archive"
+
+set mark_old = no
+set menu_context = 2
+set pager_context = 2
+set pager_stop = yes
+set resolve = no
+
+# index
+bind index <space> enter-command
+bind index \cf next-page
+bind index \cb previous-page
+bind index G last-entry
+# pager
+bind pager <space> enter-command
+bind pager \cf next-page
+bind pager \cb previous-page
+bind pager G bottom
+bind pager q exit
+bind pager j next-line
+bind pager k previous-line
+macro pager \cv <pipe-entry>'urlview'<enter> "Invoke urlview"
+
+color status white brightblack
+color indicator yellow brightblack
+color header cyan black ^
+color quoted white black
+color error white red
+color search black yellow
+color index blue black ~N
