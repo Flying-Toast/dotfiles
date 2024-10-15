@@ -1,0 +1,6 @@
+#!/bin/sh
+
+/usr/bin/mutt "$@" || exit
+
+pgrep mbsync && exit
+mbsync -aH >/dev/null 2>&1 &

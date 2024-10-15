@@ -1,0 +1,10 @@
+[binds]
+<Ctrl+j> = zoom -5
+<Ctrl+k> = zoom 5
+j = pan 0 -100
+k = pan 0 100
+h = pan 100 0
+l = pan -100 0
+o = reset
+r = rotate by 90
+<Shift+R> = rotate by -90

@@ -1,0 +1,30 @@
+#!/bin/sh
+if [ ! -f "$1" ]
+then
+	echo "'$1' is not a file" >&2
+	exit 1
+fi
+
+MIME="$(file --mime-type "$1")"
+MIME="${MIME#*:\ }"
+case "$MIME" in
+	image/*)
+		exec imv "$1"
+		;;
+	application/pdf)
+		exec zathura "$1"
+		;;
+	text/html)
+		exec firefox "$1"
+		;;
+	text/*)
+		exec vi "$1"
+		;;
+	video/*)
+		exec mpv "$1"
+		;;
+	*)
+		echo "Can't open '$1' ($MIME)"
+		exit 1
+		;;
+esac

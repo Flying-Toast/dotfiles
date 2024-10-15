@@ -1,0 +1,170 @@
+set $mod Mod4
+set $move_resize_step 50px
+
+exec wlsunset -S 06:30 -s 18:00
+exec wl-paste -t text --watch clipman store --max-items=1
+exec swayidle -w \
+	timeout 180 "systemctl suspend" \
+	before-sleep "swaylock -f" \
+	lock "systemctl suspend"
+exec mailsync
+exec calcurse-caldav
+exec calcurse --daemon
+
+input type:touchpad {
+	natural_scroll enabled
+	tap enabled
+}
+
+input type:keyboard {
+	xkb_options caps:escape
+	repeat_delay 300
+}
+
+output * {
+	bg #000000 solid_color
+	mode --custom 1408x792
+}
+
+floating_modifier $mod normal
+workspace_layout tabbed
+font JetBrainsMonoNL 12
+titlebar_padding 6 1
+hide_edge_borders --i3 none
+smart_borders on
+default_border pixel 2
+
+bar {
+	swaybar_command waybar
+}
+
+for_window [app_id="org\.mozilla\.firefox"] inhibit_idle fullscreen
+for_window [app_id="lxqt-policykit-agent"] floating enable
+
+bindsym {
+	$mod+return exec foot
+	$mod+f exec firefox
+	$mod+y exec loginctl lock-session
+	$mod+d exec wmenu-run -f "JetBrainsMonoNL 14" -l 20
+
+	$mod+shift+q kill
+	$mod+e layout toggle split
+	$mod+w layout tabbed
+	$mod+b splith
+	$mod+v splitv
+	$mod+x fullscreen
+	$mod+a focus parent
+	$mod+z focus child
+	$mod+shift+space floating toggle
+	$mod+space focus mode_toggle
+
+	$mod+shift+minus move scratchpad
+	$mod+minus scratchpad show
+
+	$mod+h focus left
+	$mod+j focus down
+	$mod+k focus up
+	$mod+l focus right
+
+	print exec grim -g "$(slurp)" - | wl-copy --type image/png
+	shift+print exec grim -g "$(slurp)"
+
+	$mod+shift+h move left $move_resize_step
+	$mod+shift+j move down $move_resize_step
+	$mod+shift+k move up $move_resize_step
+	$mod+shift+l move right $move_resize_step
+
+	$mod+1 workspace number 1
+	$mod+2 workspace number 2
+	$mod+3 workspace number 3
+	$mod+4 workspace number 4
+	$mod+shift+1 move container to workspace number 1
+	$mod+shift+2 move container to workspace number 2
+	$mod+shift+3 move container to workspace number 3
+	$mod+shift+4 move container to workspace number 4
+}
+
+mode "resize" {
+	bindsym h resize shrink width $move_resize_step
+	bindsym l resize grow width $move_resize_step
+	bindsym k resize shrink height $move_resize_step
+	bindsym j resize grow height $move_resize_step
+	bindsym escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+bindsym {
+	--locked XF86MonBrightnessUp exec brightnessctl set +5%
+	--locked shift+XF86MonBrightnessUp exec brightnessctl set +1%
+	--locked XF86MonBrightnessDown exec brightnessctl --min-value=1 set 5%-
+	--locked shift+XF86MonBrightnessDown exec brightnessctl --min-value=1 set 1%-
+	--locked alt+XF86MonBrightnessDown exec brightnessctl set 1
+
+	XF86AudioRaiseVolume exec wpctl set-volume -l 2 @DEFAULT_SINK@ 10%+
+	shift+XF86AudioRaiseVolume exec wpctl set-volume -l 2 @DEFAULT_SINK@ 5%+
+	XF86AudioLowerVolume exec wpctl set-volume -l 2 @DEFAULT_SINK@ 10%-
+	shift+XF86AudioLowerVolume exec wpctl set-volume -l 2 @DEFAULT_SINK@ 5%-
+	alt+XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_SINK@ 0
+
+	XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+	XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+
+	XF86AudioPlay exec playerctl play-pause
+	XF86AudioStop exec playerctl stop
+	XF86AudioForward exec playerctl position +10
+	XF86AudioRewind exec playerctl position -10
+	XF86AudioNext exec playerctl next
+	XF86AudioPrev exec playerctl previous
+	XF86AudioPause exec playerctl pause
+}
+
+# Start graphical authentication agent for PolicyKit.
+#
+# Certain applications may require this to request elevated privileges:
+#   GParted, virt-manager, anything that uses pkexec
+#
+# Requires: lxqt-policykit
+exec /usr/libexec/lxqt-policykit-agent
+
+# Wait until a StatusNotifierItem tray implementation is available and
+# process XDG autostart entries.
+#
+# This horror has to exist because
+#  - SNI spec mandates that if `IsStatusNotifierHostRegistered` is not set,
+#    the client should fall back to the Freedesktop System Tray specification
+#    (XEmbed).
+#  - There are actual implementations that take this seriously and implement
+#    a fallback *even if* StatusNotifierWatcher is already DBus-activated.
+#  - https://github.com/systemd/systemd/issues/3750
+exec /usr/libexec/sway-systemd/wait-sni-ready && systemctl --user start sway-xdg-autostart.target
+
+# Address several issues with DBus activation and systemd user sessions
+#
+# 1. DBus-activated and systemd services do not share the environment with user
+#    login session. In order to make the applications that have GUI or interact
+#    with the compositor work as a systemd user service, certain variables must
+#    be propagated to the systemd and dbus.
+#    Possible (but not exhaustive) list of variables:
+#    - DISPLAY - for X11 applications that are started as user session services
+#    - WAYLAND_DISPLAY - similarly, this is needed for wayland-native services
+#    - I3SOCK/SWAYSOCK - allow services to talk with sway using i3 IPC protocol
+#
+# 2. `xdg-desktop-portal` requires XDG_CURRENT_DESKTOP to be set in order to
+#    select the right implementation for screenshot and screencast portals.
+#    With all the numerous ways to start sway, it's not possible to rely on the
+#    right value of the XDG_CURRENT_DESKTOP variable within the login session,
+#    therefore the script will ensure that it is always set to `sway`.
+#
+# 3. GUI applications started as a systemd service (or via xdg-autostart-generator)
+#    may rely on the XDG_SESSION_TYPE variable to select the backend.
+#    Ensure that it is always set to `wayland`.
+#
+# 4. The common way to autostart a systemd service along with the desktop
+#    environment is to add it to a `graphical-session.target`. However, systemd
+#    forbids starting the graphical session target directly and encourages use
+#    of an environment-specific target units. Therefore, the integration
+#    package here provides and uses `sway-session.target` which would bind to
+#    the `graphical-session.target`.
+#
+# 5. Stop the target and unset the variables when the compositor exits.
+exec /usr/libexec/sway-systemd/session.sh

@@ -1,0 +1,69 @@
+{
+	"position": "bottom",
+	"ipc": true,
+	"modules-left": [
+		"sway/mode",
+		"sway/workspaces",
+		"sway/scratchpad"
+	],
+	"modules-center": [
+		"clock"
+	],
+	"modules-right": [
+		"custom/dnf-indicator",
+		"pulseaudio",
+		"power-profiles-daemon",
+		"battery"
+	],
+	"sway/mode": {
+		"format": " {} "
+	},
+	"sway/scratchpad": {
+		"format": " -{count}",
+		"show-empty": false,
+		"tooltip": false
+	},
+	"clock": {
+		"format": "{:%a %b %d  %I:%M %p}",
+		"tooltip": false
+	},
+	"battery": {
+		"states": {
+			"good": 95,
+			"warning": 19,
+			"critical": 9
+		},
+		"format": "{capacity}",
+		"format-plugged": "{capacity}p",
+		"format-charging": "{capacity}+",
+		"tooltip": false
+	},
+	"sway/workspaces": {
+		"disable-scroll": true,
+		"all-outputs": true
+	},
+	"power-profiles-daemon": {
+		"format": "{icon}",
+		"tooltip": false,
+		"format-icons": {
+			"default": "D",
+			"performance": "!",
+			"balanced": "=",
+			"power-saver": "z"
+		}
+	},
+	"pulseaudio": {
+		"format": "{volume}",
+		"format-bluetooth": "{volume} bt",
+		"format-muted": "M",
+		"tooltip": false,
+		"max-volume": 200,
+		"on-click": "wpctl set-volume @DEFAULT_SINK@ 0"
+	},
+	"custom/dnf-indicator": {
+		"exec": "dnf check-upgrade -q >/dev/null; [ $? -eq 100 ] && echo DNF || echo",
+		"on-click": "",
+		"restart-interval": 3600,
+		"tooltip": false
+	}
+}

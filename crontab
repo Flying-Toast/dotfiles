@@ -1,0 +1,2 @@
+*/15 * * * * ~/.local/bin/mailsync
+*/30 * * * * calcurse-caldav
