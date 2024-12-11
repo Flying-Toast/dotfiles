@@ -58,4 +58,5 @@ color quoted white default
 color error white red
 color search black yellow
 color index yellow default ~N
+color signature default default
 uncolor body *
