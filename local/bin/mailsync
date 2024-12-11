@@ -16,7 +16,7 @@ then
 		~/".local/share/mail/icloud/Deleted Messages" \
 		-type f -ctime +360 -exec rm {} +
 
-	echo "$(( NOW + ( 60 * 60 * 24 * 361 ) ))" > "$NEXTPURGE_PATH"
+	echo "$(( NOW + ( 60 * 60 * 24 * 361 ) ))" >"$NEXTPURGE_PATH"
 fi
 
-mbsync -a > /dev/null
+mbsync -a >/dev/null
