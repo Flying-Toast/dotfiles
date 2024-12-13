@@ -95,8 +95,7 @@ endfunc
 
 " {{{ quickfix tweaks
 autocmd FileType qf setlocal cursorline
-autocmd FileType qf nnoremap <buffer> <s-cr> <cr><cmd>call <sid>HiCurQuickfix()<cr><c-w>p
-autocmd FileType qf nnoremap <buffer> <cr> <cr><cmd>ccl<cr>
+autocmd FileType qf nnoremap <buffer> <cr> <cr><cmd>call <sid>HiCurQuickfix()<cr><c-w>p
 
 function s:HiCurQuickfix()
 	let l:qf = getqflist({ "idx": 0, "items": 1 })
