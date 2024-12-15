@@ -1,6 +1,7 @@
 general.autogc=yes
 general.multipledays=no
 general.confirmquit=no
+general.firstdayofweek=sunday
 
 format.appointmenttime=%I:%M %p
 
