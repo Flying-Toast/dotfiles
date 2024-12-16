@@ -2,7 +2,7 @@
 
 cd "$(dirname "$0")"
 
-function fail {
+fail() {
 	echo $1 1>&2
 	exit 1
 }
@@ -19,7 +19,7 @@ rm -f ~/.bash_logout
 mkdir -p ~/.cache/bash
 mkdir -p ~/.local/share/mail/icloud
 
-function install_file { # src dst
+install_file() { # src dst
 	[ -f "$1" ] || fail "source \"$1\" not a file"
 
 	if [ -e "$2" ]
@@ -36,7 +36,7 @@ function install_file { # src dst
 	cp "$1" "$2"
 }
 
-function install_dir { # srcdir dstdir
+install_dir() { # srcdir dstdir
 	find "$1" -type f -o -type l | while read item
 	do
 		install_file "$item" "$2/${item#*/}"
