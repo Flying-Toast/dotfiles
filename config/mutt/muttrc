@@ -50,7 +50,6 @@ bind pager G bottom
 bind pager q exit
 bind pager j next-line
 bind pager k previous-line
-macro pager \cv <pipe-entry>'urlview'<enter>
 macro pager d <delete-message><exit>
 
 color status white brightblack
