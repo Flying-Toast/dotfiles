@@ -1,6 +1,9 @@
-alias ls="ls --color=auto"
+alias ffmpeg="ffmpeg -hide_banner"
+alias ffplay="ffplay -hide_banner"
+alias ffprobe="ffprobe -hide_banner"
 alias grep="grep --color=auto"
 alias ip="ip -c=never"
+alias ls="ls --color=auto"
 
 unset DEBUGINFOD_URLS
 
