@@ -20,7 +20,7 @@ case "$MIME" in
 	text/*)
 		exec vi "$1"
 		;;
-	video/*)
+	video/*|audio/*)
 		exec mpv "$1"
 		;;
 	*)
