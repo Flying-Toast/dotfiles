@@ -39,6 +39,7 @@ bar {
 }
 
 for_window [app_id="org\.mozilla\.firefox"] inhibit_idle fullscreen
+for_window [app_id="mpv"] inhibit_idle fullscreen
 for_window [app_id="lxqt-policykit-agent"] floating enable
 
 bindsym {
