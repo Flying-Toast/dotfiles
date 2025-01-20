@@ -61,7 +61,7 @@
 		"on-click": "wpctl set-volume @DEFAULT_SINK@ 0"
 	},
 	"custom/dnf-indicator": {
-		"exec": "dnf check-upgrade -q >/dev/null; [ $? -eq 100 ] && echo DNF || echo",
+		"exec": "dnf check-upgrade -q --refresh >/dev/null; [ $? -eq 100 ] && echo DNF || echo",
 		"on-click": "",
 		"restart-interval": 3600,
 		"tooltip": false
