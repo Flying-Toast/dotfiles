@@ -39,6 +39,8 @@ bind index,pager \cb previous-page
 bind index,pager R group-reply
 bind index,pager \cn search-opposite
 bind index,pager <space> enter-command
+bind index j next-entry
+bind index k previous-entry
 macro index,pager s <save-message>?
 bind index gg first-entry
 bind index G last-entry
@@ -59,5 +61,6 @@ color quoted white default
 color error white red
 color search black yellow
 color index yellow default ~N
+color index magenta default ~D
 color signature default default
 uncolor body *
