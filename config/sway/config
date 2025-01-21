@@ -46,6 +46,7 @@ bindsym {
 	$mod+return exec foot
 	$mod+f exec firefox
 	$mod+y exec loginctl lock-session
+	--locked $mod+y exec systemctl suspend
 	$mod+d exec wmenu-run -f "JetBrainsMonoNL 14" -l 20
 
 	$mod+shift+q kill
