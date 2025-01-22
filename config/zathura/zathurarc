@@ -3,8 +3,9 @@ set selection-clipboard clipboard
 set statusbar-home-tilde true
 set window-title-home-tilde true
 set font "JetBrainsMonoNL normal 14"
-set highlight-active-color "rgba(254, 171, 242, 0.5)"
-set highlight-color "rgba(227, 196, 1, 0.5)"
+set highlight-active-color "rgba(254, 171, 242, 0.8)"
+set highlight-color "rgba(227, 196, 1, 0.8)"
+set highlight-fg "rgba(0, 0, 0, 1)"
 set scroll-step 100
 set scroll-hstep 100
 set zoom-step 40
