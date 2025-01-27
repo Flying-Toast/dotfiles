@@ -2,9 +2,7 @@ set $mod Mod4
 set $move_resize_step 50px
 
 exec calcurse --daemon
-exec calcurse-caldav
 exec hypridle
-exec mailsync
 exec udiskie -F
 exec wl-paste -t text --watch clipman store --max-items=1
 exec wlsunset -S 06:30 -s 18:00
