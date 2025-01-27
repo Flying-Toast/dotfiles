@@ -1,6 +1,6 @@
 [global]
 gap_size=4
-frame_width=4
+frame_width=2
 foreground="#000000"
 background="#ffff00"
 highlight="#000000"
