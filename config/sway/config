@@ -1,16 +1,13 @@
 set $mod Mod4
 set $move_resize_step 50px
 
-exec wlsunset -S 06:30 -s 18:00
-exec wl-paste -t text --watch clipman store --max-items=1
-exec swayidle -w \
-	timeout 180 "systemctl suspend" \
-	before-sleep "swaylock -f" \
-	lock "systemctl suspend"
-exec mailsync
-exec calcurse-caldav
 exec calcurse --daemon
+exec calcurse-caldav
+exec hypridle
+exec mailsync
 exec udiskie -F
+exec wl-paste -t text --watch clipman store --max-items=1
+exec wlsunset -S 06:30 -s 18:00
 
 input type:touchpad {
 	natural_scroll enabled
@@ -39,8 +36,6 @@ bar {
 	swaybar_command waybar
 }
 
-for_window [app_id="org\.mozilla\.firefox"] inhibit_idle fullscreen
-for_window [app_id="mpv"] inhibit_idle fullscreen
 for_window [app_id="lxqt-policykit-agent"] floating enable
 
 bindsym {
