@@ -5,6 +5,16 @@ alias grep="grep --color=auto"
 alias ip="ip -c=never"
 alias ls="ls --color=auto"
 
+i() {
+	open "$@" >/dev/null 2>&1 &
+	exit
+}
+
+o() {
+	open "$@" >/dev/null 2>&1 &
+	disown
+}
+
 unset DEBUGINFOD_URLS
 
 export CARGO_HOME="$HOME/.local/share/cargo"

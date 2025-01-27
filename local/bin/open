@@ -17,9 +17,6 @@ case "$MIME" in
 	text/html)
 		exec firefox "$1"
 		;;
-	text/*)
-		exec vi "$1"
-		;;
 	video/*|audio/*)
 		exec mpv "$1"
 		;;
