@@ -10,6 +10,7 @@ exec swayidle -w \
 exec mailsync
 exec calcurse-caldav
 exec calcurse --daemon
+exec udiskie -F
 
 input type:touchpad {
 	natural_scroll enabled
