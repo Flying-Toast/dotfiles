@@ -8,3 +8,6 @@ l = pan -100 0
 o = reset
 r = rotate by 90
 <Shift+R> = rotate by -90
+
+[options]
+background = checks
