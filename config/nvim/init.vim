@@ -39,7 +39,7 @@ func s:CommandAbbrev(from, to)
 endfunc
 call s:CommandAbbrev("f", "find")
 call s:CommandAbbrev("ft", "Ft")
-call s:CommandAbbrev("gr", "GrepCw")
+call s:CommandAbbrev("rg", "GrepCw")
 call s:CommandAbbrev("man", "Man")
 call s:CommandAbbrev("te", "Te")
 
