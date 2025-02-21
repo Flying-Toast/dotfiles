@@ -58,7 +58,7 @@ bind pager k previous-line
 macro pager d <delete-message><exit>
 
 color status white brightblack
-color indicator default brightblack
+color indicator reverse default default
 color header cyan default .
 color quoted white default
 color error white red
