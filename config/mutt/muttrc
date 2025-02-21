@@ -35,6 +35,8 @@ set ts_status_format = "mutt (%n) %f"
 auto_view text/html
 alternative_order text/plain text/enriched text/html
 
+folder-hook .* push <first-entry>
+
 bind index,pager \cf next-page
 bind index,pager \cb previous-page
 bind index,pager R group-reply
