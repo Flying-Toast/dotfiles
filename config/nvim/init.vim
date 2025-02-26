@@ -51,6 +51,7 @@ command! -bar Te execute "terminal" | norm i
 nnoremap <esc> <cmd>nohl<cr><cmd>call <sid>QuickFixHighlightOff()<cr>
 nnoremap <leader>s <cmd>call <sid>StripTrailingWhitespace()<cr>
 nnoremap <leader>e :make!<space>
+nnoremap <leader>f :RustFmt<cr>
 nnoremap <c-n> <cmd>bn<cr>
 nnoremap <c-p> <cmd>bp<cr>
 " nvo
