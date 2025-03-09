@@ -11,7 +11,7 @@ case "$MIME" in
 	image/*)
 		exec imv "$1"
 		;;
-	application/pdf)
+	application/pdf|application/epub*)
 		exec zathura "$1"
 		;;
 	text/html)
