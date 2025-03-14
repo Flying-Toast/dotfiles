@@ -43,7 +43,9 @@ macro attach V "<pipe-entry>iconv -c --to-code=UTF8 > /tmp/mutthtml.html<enter><
 bind index,pager \cf next-page
 bind index,pager \cb previous-page
 bind index,pager R group-reply
-bind index,pager \cn search-opposite
+bind index \cn toggle-new
+bind pager \cn mark-as-new
+bind index,pager N search-opposite
 bind index,pager <space> enter-command
 bind index j next-entry
 bind index k previous-entry
