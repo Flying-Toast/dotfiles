@@ -6,13 +6,19 @@ alias ip="ip -c=never"
 alias ls="ls --color=auto"
 
 i() {
-	open "$@" >/dev/null 2>&1 &
+	for arg in "$@"
+	do
+		open "$arg" >/dev/null 2>&1 &
+	done
 	exit
 }
 
 o() {
-	open "$@" >/dev/null 2>&1 &
-	disown
+	for arg in "$@"
+	do
+		open "$arg" >/dev/null 2>&1 &
+		disown
+	done
 }
 
 unset DEBUGINFOD_URLS
