@@ -91,9 +91,7 @@ bindsym $mod+r mode "resize"
 
 bindsym {
 	--locked XF86MonBrightnessUp exec brightnessctl set +5%
-	--locked shift+XF86MonBrightnessUp exec brightnessctl set +1%
 	--locked XF86MonBrightnessDown exec brightnessctl --min-value=1 set 5%-
-	--locked shift+XF86MonBrightnessDown exec brightnessctl --min-value=1 set 1%-
 	--locked alt+XF86MonBrightnessDown exec brightnessctl set 1
 
 	XF86AudioRaiseVolume exec wpctl set-volume -l 2 @DEFAULT_SINK@ 5%+
