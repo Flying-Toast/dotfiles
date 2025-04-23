@@ -1,7 +1,6 @@
 set $mod Mod4
 set $move_resize_step 50px
 
-exec calcurse --daemon
 exec hypridle
 exec udiskie -F
 exec wl-paste -t text --watch clipman store --max-items=1
