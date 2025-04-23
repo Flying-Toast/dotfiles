@@ -19,4 +19,4 @@ then
 	echo "$((NOW + 60*60*24*361))" >"$NEXTPURGE_PATH"
 fi
 
-mbsync -a >/dev/null
+mbsync -qa

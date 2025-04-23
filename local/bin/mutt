@@ -3,4 +3,4 @@
 /usr/bin/mutt "$@" || exit
 
 pgrep mbsync && exit
-mbsync -aH >/dev/null 2>&1 &
+mbsync -qaH &
