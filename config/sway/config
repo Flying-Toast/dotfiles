@@ -34,6 +34,7 @@ bar {
 }
 
 for_window [app_id="lxqt-policykit-agent"] floating enable
+for_window [app_id="python_scratchpad"] floating enable
 
 bindsym {
 	$mod+return exec foot
@@ -41,6 +42,7 @@ bindsym {
 	$mod+y exec loginctl lock-session
 	--locked $mod+y exec systemctl suspend
 	$mod+d exec wmenu-run -f "JetBrainsMonoNL 14" -l 20
+	$mod+p exec foot --app-id python_scratchpad python -q
 
 	$mod+shift+q kill
 	$mod+e layout toggle split

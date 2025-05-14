@@ -4,7 +4,6 @@ alias ffprobe="ffprobe -hide_banner"
 alias grep="grep --color=auto"
 alias ip="ip -c=never"
 alias ls="ls --color=auto"
-alias p="python"
 
 i() {
 	for arg in "$@"
