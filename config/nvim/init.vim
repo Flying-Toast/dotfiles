@@ -234,7 +234,18 @@ lua <<EOF
 	local on_attach = function(client, bufnr)
 		vim.bo.omnifunc="v:lua.vim.lsp.omnifunc"
 	end
-	lspconfig.rust_analyzer.setup { on_attach = on_attach }
+	lspconfig.rust_analyzer.setup {
+		on_attach = on_attach,
+		settings = {
+			["rust-analyzer"] = {
+				completion = {
+					callable = {
+						snippets = "none",
+					},
+				},
+			},
+		},
+	}
 	lspconfig.clangd.setup { on_attach = on_attach }
 
 	vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
