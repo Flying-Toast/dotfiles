@@ -19,7 +19,6 @@ let g:colors_name="quark"
 " 14 - bright cyan
 " 15 - bright white
 
-hi @variable NONE
 hi Constant NONE
 hi Delimiter NONE
 hi Function NONE
@@ -37,8 +36,6 @@ hi! link CursorLineNr LineNr
 hi! link hsImport Statement
 hi! link hsStructure Statement
 hi! link hsTypedef Statement
-hi! link @lsp.type.comment.c NONE
-hi! link @lsp.type.comment.cpp NONE
 hi! link qfError qfLineNr
 hi! link rustCommentLineDoc Comment
 hi! link rustMacro Function

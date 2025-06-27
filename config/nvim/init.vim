@@ -1,8 +1,5 @@
 call plug#begin()
 Plug 'justinmk/vim-sneak'
-if has("nvim")
-	Plug 'neovim/nvim-lspconfig'
-endif
 call plug#end()
 
 colorscheme quark
@@ -76,6 +73,8 @@ let g:netrw_liststyle = 3
 autocmd FileType * setlocal formatoptions=q
 autocmd FileType vim setlocal foldmethod=marker
 autocmd FileType rust setlocal makeprg=cargo
+" disables highlighting of rust code in doc-comment ``` blocks
+autocmd BufNew,BufReadPre * let b:current_syntax_embed=1
 autocmd TermOpen * setlocal nonu nornu
 
 hi! link i3ConfigError NONE
@@ -221,8 +220,6 @@ if has("nvim")
 	autocmd TextYankPost * lua vim.highlight.on_yank { higroup = "YankeeDoodle" }
 
 lua <<EOF
-	local lspconfig = require("lspconfig")
-
 	vim.lsp.set_log_level("OFF")
 
 	vim.diagnostic.config {
@@ -231,11 +228,24 @@ lua <<EOF
 		signs = false,
 	}
 
-	local on_attach = function(client, bufnr)
-		vim.bo.omnifunc="v:lua.vim.lsp.omnifunc"
-	end
-	lspconfig.rust_analyzer.setup {
-		on_attach = on_attach,
+	-- disable lsp semantic tokens
+	vim.api.nvim_create_autocmd("LspAttach", {
+		callback = function(args)
+			local client = vim.lsp.get_client_by_id(args.data.client_id)
+			client.server_capabilities.semanticTokensProvider = nil
+		end,
+	});
+
+	vim.lsp.config("*", {
+		on_attach = function(client, bufnr)
+			vim.bo.omnifunc="v:lua.vim.lsp.omnifunc"
+		end,
+	})
+
+	vim.lsp.config("rust_analyzer", {
+		cmd = { "rust-analyzer" },
+		filetypes = { "rust" },
+		root_markers = { "Cargo.toml" },
 		settings = {
 			["rust-analyzer"] = {
 				completion = {
@@ -243,10 +253,21 @@ lua <<EOF
 						snippets = "none",
 					},
 				},
-			},
+			}
+		}
+	})
+	vim.lsp.enable("rust_analyzer")
+
+	vim.lsp.config("clangd", {
+		cmd = { "clangd" },
+		filetypes = { "c", "cpp" },
+		root_markers = {
+			"compile_commands.json",
+			".git",
+			"Makefile",
 		},
-	}
-	lspconfig.clangd.setup { on_attach = on_attach }
+	})
+	vim.lsp.enable("clangd")
 
 	vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
 		vim.lsp.handlers.signature_help, {
