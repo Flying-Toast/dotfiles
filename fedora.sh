@@ -1,12 +1,12 @@
 #!/bin/sh
 
-if [ $(id -u) -ne 0 ]
+if [ "$(id -u)" -ne 0 ]
 then
 	echo needs root
 	exit 1
 fi
 
-dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
+dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-"$(rpm -E %fedora)".noarch.rpm
 dnf swap -y ffmpeg-free ffmpeg --allowerasing
 dnf update -y @multimedia
 

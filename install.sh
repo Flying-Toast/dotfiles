@@ -1,11 +1,11 @@
 #!/bin/sh
 
-cd "$(dirname "$0")"
-
 fail() {
-	echo $1 1>&2
+	echo "$1" 1>&2
 	exit 1
 }
+
+cd "$(dirname "$0")" || fail "can't cd"
 
 for xdgdir in Desktop Downloads Templates Public Documents Music Pictures Videos
 do
@@ -37,7 +37,7 @@ install_file() { # src dst
 }
 
 install_dir() { # srcdir dstdir
-	find "$1" -type f -o -type l | while read item
+	find "$1" -type f -o -type l | while read -r item
 	do
 		install_file "$item" "$2/${item#*/}"
 	done
