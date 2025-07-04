@@ -33,6 +33,8 @@ hi Title NONE
 hi Type NONE
 
 hi! link CursorLineNr LineNr
+hi! link cErrInParen NONE
+hi! link cErrinBracket NONE
 hi! link hsImport Statement
 hi! link hsStructure Statement
 hi! link hsTypedef Statement
