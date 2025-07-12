@@ -48,5 +48,6 @@ crontab ./crontab
 install_dir config ~/.config
 install_dir local ~/.local
 install_file bashrc ~/.bashrc
+install_file bash_profile ~/.bash_profile
 # TODO: update to xdg dirs after https://bugzilla.mozilla.org/show_bug.cgi?id=259356
 install_file user.js "$(echo ~/.mozilla/firefox/*.default-release)/user.js"
