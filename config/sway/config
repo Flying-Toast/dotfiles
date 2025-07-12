@@ -1,7 +1,9 @@
 set $mod Mod4
 set $move_resize_step 50px
 
-exec hypridle
+exec swayidle -w \
+	lock "swaylock -f" \
+	before-sleep "swaylock -f"
 exec udiskie -F
 exec wl-paste -t text --watch clipman store --max-items=1
 exec wlsunset -S 06:30 -s 18:00
@@ -39,8 +41,7 @@ for_window [app_id="python_scratchpad"] floating enable
 bindsym {
 	$mod+return exec foot
 	$mod+f exec firefox
-	$mod+y exec loginctl lock-session
-	--locked $mod+y exec systemctl suspend
+	$mod+y exec systemctl suspend
 	$mod+d exec wmenu-run -f "JetBrainsMonoNL 14" -l 20
 	$mod+p exec foot --app-id python_scratchpad python -q
 
