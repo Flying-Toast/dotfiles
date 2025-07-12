@@ -15,6 +15,7 @@ dnf remove -y abrt vim-minimal sddm Thunar xarchiver nano parted pinfo rsync tra
 	grimshot
 dnf --setopt=install_weak_deps=False install -y neovim
 dnf install -y power-profiles-daemon jetbrains-mono-nl-fonts ripgrep brightnessctl wmenu \
-	zathura zathura-pdf-mupdf clipman mutt isync lynx udiskie
+	zathura zathura-pdf-mupdf clipman mutt isync lynx udiskie clang lldb clang-tools-extra \
+	bear make
 
 ln -s /usr/bin/nvim /usr/bin/vi
