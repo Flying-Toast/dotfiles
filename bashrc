@@ -36,7 +36,7 @@ export RUSTUP_HOME="$HOME/.local/share/rustup"
 export XDG_CONFIG_HOME="$HOME/.config"
 
 PS1='\[\e[36m\]\w\[\e[32m\]\$\[\e[00m\] '
-github="git@github.com:Flying-Toast"
+gh="git@github.com:Flying-Toast"
 
 shopt -s histappend
 
