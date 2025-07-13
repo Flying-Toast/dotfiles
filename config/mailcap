@@ -1,4 +1,0 @@
-text/html; lynx -assume_charset=%{charset} -display_charset=utf-8 \
-	-force_html -dump %s; copiousoutput
-application/pdf; zathura %s;
-image/*; imv %s;

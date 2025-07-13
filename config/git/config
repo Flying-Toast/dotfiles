@@ -3,5 +3,3 @@
 	email = 38232168+Flying-Toast@users.noreply.github.com
 [init]
 	defaultBranch = master
-[pager]
-	diff = /usr/share/git-core/contrib/diff-highlight | less

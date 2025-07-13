@@ -1,9 +1,9 @@
 #!/bin/sh
-if [ ! -f "$1" ]
-then
-	echo "'$1' is not a file" >&2
-	exit 1
-fi
+case "$1" in
+	http://*|https://*)
+		exec firefox "$1"
+		;;
+esac
 
 MIME="$(file --mime-type "$1")"
 MIME="${MIME#*:\ }"
@@ -21,7 +21,7 @@ case "$MIME" in
 		exec mpv "$1"
 		;;
 	*)
-		echo "Can't open '$1' ($MIME)"
+		echo "unhandled mime for '$1' ($MIME)"
 		exit 1
 		;;
 esac

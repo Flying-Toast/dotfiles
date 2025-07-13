@@ -2,9 +2,8 @@ set $mod Mod4
 set $move_resize_step 50px
 
 exec swayidle -w \
-	lock "swaylock -f" \
-	before-sleep "swaylock -f"
-exec udiskie -F
+	lock "swaylockd -f" \
+	before-sleep "swaylockd -f"
 exec wl-paste -t text --watch clipman store --max-items=1
 exec wlsunset -S 06:30 -s 18:00
 
@@ -32,18 +31,17 @@ smart_borders on
 default_border pixel 2
 
 bar {
-	swaybar_command waybar
+	status_command i3status
+	separator_symbol "    "
+	font JetBrainsMonoNL 12
+	height 20
 }
-
-for_window [app_id="lxqt-policykit-agent"] floating enable
-for_window [app_id="python_scratchpad"] floating enable
 
 bindsym {
 	$mod+return exec foot
 	$mod+f exec firefox
-	$mod+y exec systemctl suspend
+	$mod+y exec loginctl suspend
 	$mod+d exec wmenu-run -f "JetBrainsMonoNL 14" -l 20
-	$mod+p exec foot --app-id python_scratchpad python -q
 
 	$mod+shift+q kill
 	$mod+e layout toggle split
@@ -96,12 +94,11 @@ bindsym {
 	--locked XF86MonBrightnessDown exec brightnessctl --min-value=1 set 5%-
 	--locked alt+XF86MonBrightnessDown exec brightnessctl set 1
 
-	XF86AudioRaiseVolume exec wpctl set-volume -l 2 @DEFAULT_SINK@ 5%+
-	XF86AudioLowerVolume exec wpctl set-volume -l 2 @DEFAULT_SINK@ 5%-
-	alt+XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_SINK@ 0
-
-	XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
-	XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+	XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_SINK@ 5%+ && killall -USR1 i3status
+	XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_SINK@ 5%- && killall -USR1 i3status
+	alt+XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_SINK@ 0 && killall -USR1 i3status
+	XF86AudioMicMute exec wpctl set-mute @DEFAULT_SOURCE@ toggle && killall -USR1 i3status
+	XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle && killall -USR1 i3status
 
 	XF86AudioPlay exec playerctl play-pause
 	XF86AudioStop exec playerctl stop
@@ -111,54 +108,3 @@ bindsym {
 	XF86AudioPrev exec playerctl previous
 	XF86AudioPause exec playerctl pause
 }
-
-# Start graphical authentication agent for PolicyKit.
-#
-# Certain applications may require this to request elevated privileges:
-#   GParted, virt-manager, anything that uses pkexec
-#
-# Requires: lxqt-policykit
-exec /usr/libexec/lxqt-policykit-agent
-
-# Wait until a StatusNotifierItem tray implementation is available and
-# process XDG autostart entries.
-#
-# This horror has to exist because
-#  - SNI spec mandates that if `IsStatusNotifierHostRegistered` is not set,
-#    the client should fall back to the Freedesktop System Tray specification
-#    (XEmbed).
-#  - There are actual implementations that take this seriously and implement
-#    a fallback *even if* StatusNotifierWatcher is already DBus-activated.
-#  - https://github.com/systemd/systemd/issues/3750
-exec /usr/libexec/sway-systemd/wait-sni-ready && systemctl --user start sway-xdg-autostart.target
-
-# Address several issues with DBus activation and systemd user sessions
-#
-# 1. DBus-activated and systemd services do not share the environment with user
-#    login session. In order to make the applications that have GUI or interact
-#    with the compositor work as a systemd user service, certain variables must
-#    be propagated to the systemd and dbus.
-#    Possible (but not exhaustive) list of variables:
-#    - DISPLAY - for X11 applications that are started as user session services
-#    - WAYLAND_DISPLAY - similarly, this is needed for wayland-native services
-#    - I3SOCK/SWAYSOCK - allow services to talk with sway using i3 IPC protocol
-#
-# 2. `xdg-desktop-portal` requires XDG_CURRENT_DESKTOP to be set in order to
-#    select the right implementation for screenshot and screencast portals.
-#    With all the numerous ways to start sway, it's not possible to rely on the
-#    right value of the XDG_CURRENT_DESKTOP variable within the login session,
-#    therefore the script will ensure that it is always set to `sway`.
-#
-# 3. GUI applications started as a systemd service (or via xdg-autostart-generator)
-#    may rely on the XDG_SESSION_TYPE variable to select the backend.
-#    Ensure that it is always set to `wayland`.
-#
-# 4. The common way to autostart a systemd service along with the desktop
-#    environment is to add it to a `graphical-session.target`. However, systemd
-#    forbids starting the graphical session target directly and encourages use
-#    of an environment-specific target units. Therefore, the integration
-#    package here provides and uses `sway-session.target` which would bind to
-#    the `graphical-session.target`.
-#
-# 5. Stop the target and unset the variables when the compositor exits.
-exec /usr/libexec/sway-systemd/session.sh

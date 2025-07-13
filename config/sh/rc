@@ -1,0 +1,17 @@
+PS1='\w\$ '
+gh="git@github.com:Flying-Toast"
+
+i() {
+	for arg
+	do
+		xdg-open "$arg" >/dev/null 2>&1 &
+	done
+	exit
+}
+
+o() {
+	for arg
+	do
+		xdg-open "$arg" >/dev/null 2>&1 &
+	done
+}

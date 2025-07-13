@@ -1,0 +1,32 @@
+general {
+	interval = 25
+	color_bad = "#ffff00"
+	color_degraded = "#ffffff"
+}
+
+order += "time"
+order += "volume master"
+order += "battery 0"
+
+time {
+	format = "%a %b %d    %I:%M %p"
+}
+
+volume master {
+	format = "%volume"
+	format_muted = "M"
+}
+
+battery 0 {
+	format = "%percentage%status"
+	format_percentage = "%.00f"
+	format_down = "0"
+	last_full_capacity = true
+	status_bat = ""
+	status_chr = "+"
+	status_full = ""
+	status_idle = ""
+	status_unk = "?"
+	low_threshold = 19
+	threshold_type = "percentage"
+}

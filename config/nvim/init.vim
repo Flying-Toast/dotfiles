@@ -30,6 +30,7 @@ set statusline+=\ \|\ %3p%% " percent thru file
 set statusline+=\ \|\ %-8(%l:%c%) "line:col
 
 let mapleader = ","
+let g:is_posix = 1
 
 func s:CommandAbbrev(from, to)
 	execute "cabbrev " . a:from . " <c-r>=getcmdpos() == 1 && getcmdtype() == ':' ? '" . a:to . "' : '" . a:from . "'<cr>"
