@@ -43,6 +43,7 @@ hi! link rustCommentLineDoc Comment
 hi! link rustMacro Function
 hi! link rustSigil Operator
 hi! link rustStorage Statement
+hi! link shColon NONE
 
 hi Comment ctermfg=8 ctermbg=NONE cterm=NONE
 hi CurSearch ctermfg=0 ctermbg=3 cterm=NONE
