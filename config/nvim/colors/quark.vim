@@ -63,6 +63,7 @@ hi PmenuSel ctermfg=0 ctermbg=7 cterm=NONE
 hi PmenuThumb ctermfg=7 ctermbg=7 cterm=NONE
 hi QuickFixLine ctermfg=3 ctermbg=NONE cterm=NONE
 hi Search ctermfg=0 ctermbg=1 cterm=NONE
+hi SpecialKey ctermfg=6 ctermbg=NONE cterm=NONE
 hi StatusLine ctermfg=7 ctermbg=8 cterm=NONE
 hi String ctermfg=2 ctermbg=NONE cterm=NONE
 hi Todo ctermfg=5 ctermbg=NONE cterm=bold
