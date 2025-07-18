@@ -37,11 +37,14 @@ bar {
 	height 20
 }
 
+for_window [app_id="python_scratchpad"] floating enable
+
 bindsym {
 	$mod+return exec foot
 	$mod+f exec firefox
 	$mod+y exec loginctl suspend
 	$mod+d exec wmenu-run -f "JetBrainsMonoNL 14" -l 20
+	$mod+p exec foot --app-id python_scratchpad python -q
 
 	$mod+shift+q kill
 	$mod+e layout toggle split
