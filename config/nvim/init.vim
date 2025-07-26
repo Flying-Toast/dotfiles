@@ -29,6 +29,7 @@ set statusline+=%{&filetype}
 set statusline+=\ \|\ %3p%% " percent thru file
 set statusline+=\ \|\ %-8(%l:%c%) "line:col
 
+let asmsyntax = "d"
 let mapleader = ","
 let g:is_posix = 1
 
