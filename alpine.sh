@@ -8,6 +8,7 @@ fail() {
 [ "$(id -u)" -eq  0 ] || fail "needs root"
 
 apk add \
+	adwaita-icon-theme \
 	brightnessctl \
 	clipman \
 	dbus \
