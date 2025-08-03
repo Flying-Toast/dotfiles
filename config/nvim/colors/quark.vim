@@ -70,4 +70,10 @@ hi Todo ctermfg=5 ctermbg=NONE cterm=bold
 hi Visual ctermfg=0 ctermbg=7 cterm=NONE
 hi WarningMsg ctermfg=3 ctermbg=NONE cterm=NONE
 hi WinSeparator ctermfg=8 ctermbg=NONE cterm=NONE
+hi hexChecksum ctermfg=6 ctermbg=NONE cterm=NONE
+hi hexDataAddress ctermfg=1 ctermbg=NONE cterm=NONE
+hi hexDataOdd ctermfg=4 ctermbg=NONE cterm=NONE
+hi hexNoAddress ctermfg=8 ctermbg=NONE cterm=NONE
+hi hexRecStart ctermfg=8 ctermbg=NONE cterm=NONE
+hi hexRecType ctermfg=3 ctermbg=NONE cterm=NONE
 hi qfLineNr ctermfg=5 ctermbg=NONE cterm=NONE
