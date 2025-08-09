@@ -102,8 +102,8 @@ bindsym {
 	XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_SINK@ 5%+ && killall -USR1 i3status
 	XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_SINK@ 5%- && killall -USR1 i3status
 	alt+XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_SINK@ 0 && killall -USR1 i3status
+	XF86AudioMute exec wpctl set-mute @DEFAULT_SINK@ toggle && killall -USR1 i3status
 	XF86AudioMicMute exec wpctl set-mute @DEFAULT_SOURCE@ toggle && killall -USR1 i3status
-	XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle && killall -USR1 i3status
 
 	XF86AudioPlay exec playerctl play-pause
 	XF86AudioStop exec playerctl stop
